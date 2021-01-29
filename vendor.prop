@@ -14,6 +14,7 @@ vendor.audio.hw.aac.encoder=true
 vendor.voice.path.for.pcm.voip=true
 
 # Display
+ro.surface_flinger.has_wide_color_display=false
 ro.vendor.display.ad=1
 ro.vendor.display.ad.sdr_calib_data=/vendor/etc/sdr_config.cfg
 ro.vendor.display.ad.hdr_calib_data=/vendor/etc/hdr_config.cfg
