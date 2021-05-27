@@ -24,6 +24,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/audio/,$(TARGET_COPY_OUT_VENDOR)/etc)
 
+# Boot animation
+TARGET_BOOT_ANIMATION_RES := 2280
+
 # Camera
 PRODUCT_PACKAGES += \
     libshim_megvii
