@@ -34,6 +34,8 @@
 
 #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
 #include <sys/_system_properties.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <android-base/properties.h>
 
 #include "property_service.h"
@@ -79,6 +81,47 @@ void set_device_props(const string brand, const string device,
     }
 }
 
+/* From Magisk@jni/magiskhide/hide_utils.c */
+static const char *snet_prop_key[] = {
+    "ro.boot.vbmeta.device_state",
+    "ro.boot.verifiedbootstate",
+    "ro.boot.flash.locked",
+    "ro.boot.veritymode",
+    "ro.boot.warranty_bit",
+    "ro.warranty_bit",
+    "ro.debuggable",
+    "ro.secure",
+    "ro.build.type",
+    "ro.build.tags",
+    "ro.build.selinux",
+    NULL
+};
+
+ static const char *snet_prop_value[] = {
+    "locked",
+    "green",
+    "1",
+    "enforcing",
+    "0",
+    "0",
+    "0",
+    "1",
+    "user",
+    "release-keys",
+    "1",
+    NULL
+};
+
+ static void workaround_snet_properties() {
+
+     // Hide all sensitive props
+    for (int i = 0; snet_prop_key[i]; ++i) {
+        property_override(snet_prop_key[i], snet_prop_value[i]);
+    }
+
+
+}
+
 void set_device_fp() {
     // list of partitions to override props
     string source_partitions[] = { "", "bootimage", "odm.", "product.",
@@ -86,6 +129,7 @@ void set_device_fp() {
 
     string fp = "Xiaomi/dipper/dipper:8.1.0/OPM1.171019.011/V9.5.5.0.OEAMIFA:user/release-keys";
     string desc = "dipper-user 8.1.0 OPM1.171019.011 V9.5.5.0.OEAMIFA release-keys";
+    workaround_snet_properties();
 
     for (const string &source : source_partitions) {
         set_ro_build_prop(source, "fingerprint", fp, false);
@@ -110,5 +154,4 @@ void vendor_load_properties()
     //Safetynet workarounds
     set_device_fp();
     property_override("ro.oem_unlock_supported", "0");
-    property_override("ro.boot.verifiedbootstate", "green");
 }
