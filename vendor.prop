@@ -23,3 +23,6 @@ persist.vendor.cp.vbus_offset_mv=1040
 
 # Media
 vendor.media.target.version=2
+
+# Refresh Rate
+ro.surface_flinger.use_content_detection_for_refresh_rate=true
